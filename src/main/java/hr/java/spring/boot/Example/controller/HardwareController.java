@@ -19,11 +19,11 @@ public class HardwareController {
 
     @GetMapping
     public List<HardwareDTO> getAllHardware() {
-        return hardwareService.getAllHardware().stream().toList();
+        return hardwareService.getAllHardware();
     }
 
     @GetMapping("/{hardwareCode}")
     public List<HardwareDTO> getHardwareByCode(@PathVariable String hardwareCode) {
-        return hardwareService.getHardwareByCode(hardwareCode).stream().toList();
+        return hardwareService.getHardwareByCode(hardwareCode);
     }
 }
