@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -51,5 +52,26 @@ public class HardwareRepositoryImpl implements HardwareRepository {
         hardware.setCode(hardwareList.size() + 1 + "");
         hardwareList.add(hardware);
         return generatedId;
+    }
+
+    @Override
+    public Optional<Hardware> updateHardware(Hardware hardwareToUpdate, String hardwareCode) {
+        Optional<Hardware> storedHardwareOptional = hardwareList.stream().filter(h -> h.getCode().equalsIgnoreCase(hardwareCode)).findFirst();
+        if (storedHardwareOptional.isPresent()) {
+            Hardware storedHardware = storedHardwareOptional.get();
+            storedHardware.setName(hardwareToUpdate.getName());
+            storedHardware.setAvailable(hardwareToUpdate.getAvailable());
+            storedHardware.setPrice(hardwareToUpdate.getPrice());
+            storedHardware.setCode(hardwareToUpdate.getCode());
+
+            return Optional.of(storedHardware);
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean hardwareByIdExists(String hardwareCode) {
+        return hardwareList.stream().filter(h -> h.getCode().equalsIgnoreCase(hardwareCode)).findFirst().isPresent();
     }
 }
