@@ -7,4 +7,5 @@ import java.util.List;
 public interface HardwareService {
     List<HardwareDTO> getAllHardware();
     List<HardwareDTO> getHardwareByCode(String hardwareCode);
+    Integer saveNewHardware(HardwareDTO hardware);
 }

@@ -44,4 +44,12 @@ public class HardwareRepositoryImpl implements HardwareRepository {
                 .filter(h -> h.getCode().contains(hardwareCode))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Integer saveNewHardware(Hardware hardware) {
+        Integer generatedId = hardwareList.size() + 1;
+        hardware.setCode(hardwareList.size() + 1 + "");
+        hardwareList.add(hardware);
+        return generatedId;
+    }
 }

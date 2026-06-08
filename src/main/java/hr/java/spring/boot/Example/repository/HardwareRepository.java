@@ -7,4 +7,5 @@ import java.util.List;
 public interface HardwareRepository {
     List<Hardware> getAllHardware();
     List<Hardware> getHardwareByCode(String hardwareCode);
+    Integer saveNewHardware(Hardware hardware);
 }

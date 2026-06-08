@@ -3,6 +3,8 @@ package hr.java.spring.boot.Example.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @Getter
 @AllArgsConstructor
 public enum Category {
@@ -16,4 +18,12 @@ public enum Category {
 
     private final Integer id;
     private final String name;
+
+    public static Category getCategoryFromName(String name) {
+        return Arrays.stream(values())
+                .filter(category -> category.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Category doesnt exist: " +name));
+    }
 }
