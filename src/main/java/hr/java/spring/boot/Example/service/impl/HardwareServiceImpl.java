@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -35,6 +36,23 @@ public class HardwareServiceImpl implements HardwareService {
         return hardwareRepository.saveNewHardware(convertHardwareDTOToHardware(hardware));
     }
 
+    @Override
+    public Optional<HardwareDTO> updateHardware(HardwareDTO hardwareToUpdate, String hardwareCode) {
+        Optional<Hardware> updatedHardwareOptional =
+                hardwareRepository.updateHardware(convertHardwareDTOToHardware(hardwareToUpdate), hardwareCode);
+
+        if (updatedHardwareOptional.isPresent()) {
+            return Optional.of(convertHardwareToHardwareDTO(updatedHardwareOptional.get()));
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean hardwareByIdExists(String hardwareCode) {
+        return hardwareRepository.hardwareByIdExists(hardwareCode);
+    }
+
     private HardwareDTO convertHardwareToHardwareDTO(Hardware hardware) {
         return new HardwareDTO(hardware.getName(),
                 hardware.getPrice(),
@@ -50,4 +68,5 @@ public class HardwareServiceImpl implements HardwareService {
         newHardware.setCategory(Category.getCategoryFromName(hardware.getCategoryName()));
         return newHardware;
     }
+
 }
