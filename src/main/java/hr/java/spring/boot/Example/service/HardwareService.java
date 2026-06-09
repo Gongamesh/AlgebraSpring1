@@ -12,4 +12,5 @@ public interface HardwareService {
     Integer saveNewHardware(HardwareDTO hardware);
     Optional<HardwareDTO> updateHardware(HardwareDTO hardwareToUpdate, String hardwareCode);
     boolean hardwareByIdExists(String hardwareCode);
+    boolean deleteHardwareByCode(String hardwareCode);
 }

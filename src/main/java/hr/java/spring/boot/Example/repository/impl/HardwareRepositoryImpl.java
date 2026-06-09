@@ -62,7 +62,7 @@ public class HardwareRepositoryImpl implements HardwareRepository {
             storedHardware.setName(hardwareToUpdate.getName());
             storedHardware.setAvailable(hardwareToUpdate.getAvailable());
             storedHardware.setPrice(hardwareToUpdate.getPrice());
-            storedHardware.setCode(hardwareToUpdate.getCode());
+            storedHardware.setCategory(hardwareToUpdate.getCategory());
 
             return Optional.of(storedHardware);
         }
@@ -73,5 +73,10 @@ public class HardwareRepositoryImpl implements HardwareRepository {
     @Override
     public boolean hardwareByIdExists(String hardwareCode) {
         return hardwareList.stream().filter(h -> h.getCode().equalsIgnoreCase(hardwareCode)).findFirst().isPresent();
+    }
+
+    @Override
+    public boolean deleteHardwareByCode(String hardwareCode) {
+        return hardwareList.removeIf(hardware -> hardware.getCode().equalsIgnoreCase(hardwareCode));
     }
 }

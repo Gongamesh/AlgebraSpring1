@@ -11,4 +11,5 @@ public interface HardwareRepository {
     Integer saveNewHardware(Hardware hardware);
     Optional<Hardware> updateHardware(Hardware hardwareToUpdate, String hardwareCode);
     boolean hardwareByIdExists(String hradwareCode);
+    boolean deleteHardwareByCode(String hardwareCode);
 }

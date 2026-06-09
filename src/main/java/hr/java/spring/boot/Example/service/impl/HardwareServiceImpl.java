@@ -53,6 +53,11 @@ public class HardwareServiceImpl implements HardwareService {
         return hardwareRepository.hardwareByIdExists(hardwareCode);
     }
 
+    @Override
+    public boolean deleteHardwareByCode(String hardwareCode) {
+        return hardwareRepository.deleteHardwareByCode(hardwareCode);
+    }
+
     private HardwareDTO convertHardwareToHardwareDTO(Hardware hardware) {
         return new HardwareDTO(hardware.getName(),
                 hardware.getPrice(),

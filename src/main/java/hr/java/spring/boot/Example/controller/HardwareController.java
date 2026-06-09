@@ -44,4 +44,20 @@ public class HardwareController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @DeleteMapping("/{hardwareCode}")
+    public ResponseEntity<?> deleteHardwareByCode(@PathVariable String hardwareCode) {
+        if (hardwareService.hardwareByIdExists(hardwareCode)) {
+            boolean result = hardwareService.deleteHardwareByCode(hardwareCode);
+
+            if (result) {
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.noContent().build();
+            }
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
