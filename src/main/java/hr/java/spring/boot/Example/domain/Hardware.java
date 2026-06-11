@@ -10,9 +10,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Hardware {
+    private Integer id;
     private String name;
     private String code;
     private BigDecimal price;
-    private int available;
+    private Integer available;
     private Category category;
 }

@@ -19,12 +19,12 @@ public class HardwareRepositoryImpl implements HardwareRepository {
     static {
         hardwareList = new ArrayList<>();
 
-        Hardware firstHardware = new Hardware("AMD Ryzen", "A1", new BigDecimal(180), 5, Category.CPU);
-        Hardware secondHardware = new Hardware("NVIDIA GeForce", "B2", new BigDecimal(350), 10, Category.GPU);
-        Hardware thirdHardware = new Hardware("Corsair Vengeance", "C3", new BigDecimal(60), 50, Category.RAM);
-        Hardware fourthHardware = new Hardware("MSI B550", "D4", new BigDecimal(130), 7, Category.MBO);
-        Hardware fifthHardware = new Hardware("Samsung 970 EVO", "E5", new BigDecimal(90), 20, Category.STORAGE);
-        Hardware sixthHardware = new Hardware("Corsair CX650", "F6", new BigDecimal(70), 28, Category.OTHER);
+        Hardware firstHardware = new Hardware(1, "AMD Ryzen", "A1", new BigDecimal(180), 5, Category.CPU);
+        Hardware secondHardware = new Hardware(2, "NVIDIA GeForce", "B2", new BigDecimal(350), 10, Category.GPU);
+        Hardware thirdHardware = new Hardware(3, "Corsair Vengeance", "C3", new BigDecimal(60), 50, Category.RAM);
+        Hardware fourthHardware = new Hardware(4, "MSI B550", "D4", new BigDecimal(130), 7, Category.MBO);
+        Hardware fifthHardware = new Hardware(5, "Samsung 970 EVO", "E5", new BigDecimal(90), 20, Category.STORAGE);
+        Hardware sixthHardware = new Hardware(6, "Corsair CX650", "F6", new BigDecimal(70), 28, Category.OTHER);
 
         hardwareList.add(firstHardware);
         hardwareList.add(secondHardware);

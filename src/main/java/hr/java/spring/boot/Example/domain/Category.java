@@ -26,4 +26,14 @@ public enum Category {
                 .orElseThrow(() ->
                         new IllegalArgumentException("Category doesnt exist: " +name));
     }
+
+    public static Category getCategoryFromId(Integer id) {
+        for (Category category : values()) {
+            if(category.getId().equals(id)) {
+                return category;
+            }
+        }
+
+        throw new IllegalArgumentException("Unknown category id: " +id);
+    }
 }
