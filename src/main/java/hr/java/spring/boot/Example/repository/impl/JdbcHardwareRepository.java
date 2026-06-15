@@ -31,8 +31,9 @@ public class JdbcHardwareRepository implements HardwareRepository {
     @Override
     public Integer saveNewHardware(Hardware hardware) {
         final String SQL =
-                "SELECT Id FROM FINAL TABLE (INSERT INTO Hardware(Code, Name, Price, Available, CategoryFK)" +
-                        " VALUES(?,?,?,?,?)) Hardware";
+                "INSERT INTO Hardware(Code, Name, Price, Available, CategoryFK)" +
+                        "OUTPUT INSERTED.Id" +
+                        " VALUES(?,?,?,?,?)";
 
         Integer generatedId = jdbcTemplate.queryForObject(SQL, Integer.class, hardware.getCode(),
                 hardware.getName(),
