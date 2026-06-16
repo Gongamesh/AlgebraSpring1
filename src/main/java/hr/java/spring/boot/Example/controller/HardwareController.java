@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/hardware")
@@ -26,6 +27,17 @@ public class HardwareController {
     @GetMapping("/{hardwareCode}")
     public List<HardwareDTO> getHardwareByCode(@PathVariable String hardwareCode) {
         return hardwareService.getHardwareByCode(hardwareCode);
+    }
+
+    @GetMapping("/id/{hardwareId}")
+    public ResponseEntity<?> getHardwareById(@PathVariable Integer hardwareId) {
+        Optional<HardwareDTO> optionalHardwareDTO = hardwareService.getHardwareById(hardwareId);
+
+        if(optionalHardwareDTO.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(optionalHardwareDTO.get());
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/new")

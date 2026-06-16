@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface HardwareService {
     List<HardwareDTO> getAllHardware();
     List<HardwareDTO> getHardwareByCode(String hardwareCode);
+    Optional<HardwareDTO> getHardwareById(Integer hardwareId);
     Integer saveNewHardware(HardwareDTO hardware);
     Optional<HardwareDTO> updateHardware(HardwareDTO hardwareToUpdate, String hardwareCode);
     boolean hardwareByIdExists(String hardwareCode);

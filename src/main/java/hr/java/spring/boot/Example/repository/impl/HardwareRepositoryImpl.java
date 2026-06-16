@@ -47,6 +47,11 @@ public class HardwareRepositoryImpl implements HardwareRepository {
     }
 
     @Override
+    public Optional<Hardware> getHardwareById(Integer hardwareId) {
+        return Optional.empty();
+    }
+
+    @Override
     public Integer saveNewHardware(Hardware hardware) {
         Integer generatedId = hardwareList.size() + 1;
         hardware.setCode(hardwareList.size() + 1 + "");

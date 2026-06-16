@@ -5,6 +5,7 @@ import hr.java.spring.boot.Example.mapper.HardwareMapper;
 import hr.java.spring.boot.Example.repository.HardwareRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +27,17 @@ public class JdbcHardwareRepository implements HardwareRepository {
     @Override
     public List<Hardware> getHardwareByCode(String hardwareCode) {
         return jdbcTemplate.query("SELECT * FROM Hardware WHERE Code = ?", new HardwareMapper(), hardwareCode);
+    }
+
+    @Override
+    public Optional<Hardware> getHardwareById(Integer hardwareId) {
+        final String SQL = "SELECT * FROM Hardware WHERE Id = ?";
+        try {
+            Hardware hardware = jdbcTemplate.queryForObject(SQL, new HardwareMapper(), hardwareId);
+            return Optional.ofNullable(hardware);
+        } catch (DataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override

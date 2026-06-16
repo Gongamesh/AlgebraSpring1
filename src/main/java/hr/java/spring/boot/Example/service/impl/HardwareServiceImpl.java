@@ -32,6 +32,17 @@ public class HardwareServiceImpl implements HardwareService {
     }
 
     @Override
+    public Optional<HardwareDTO> getHardwareById(Integer hardwareId) {
+        Optional<Hardware> optionalHardware = hardwareRepository.getHardwareById(hardwareId);
+
+        if (optionalHardware.isPresent()) {
+            return Optional.of(convertHardwareToHardwareDTO(optionalHardware.get()));
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
     public Integer saveNewHardware(HardwareDTO hardware) {
         return hardwareRepository.saveNewHardware(convertHardwareDTOToHardware(hardware));
     }
