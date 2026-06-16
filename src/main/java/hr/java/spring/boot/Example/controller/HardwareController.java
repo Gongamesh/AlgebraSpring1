@@ -25,8 +25,10 @@ public class HardwareController {
     }
 
     @GetMapping("/{hardwareCode}")
-    public List<HardwareDTO> getHardwareByCode(@PathVariable String hardwareCode) {
-        return hardwareService.getHardwareByCode(hardwareCode);
+    public ResponseEntity<?> getHardwareByCode(@PathVariable String hardwareCode) {
+        List<HardwareDTO> result = hardwareService.getHardwareByCode(hardwareCode);
+
+        return result.isEmpty() ? ResponseEntity.badRequest().build() : ResponseEntity.ok(result);
     }
 
     @GetMapping("/id/{hardwareId}")

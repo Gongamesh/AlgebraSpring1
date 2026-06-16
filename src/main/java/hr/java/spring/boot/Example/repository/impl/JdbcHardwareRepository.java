@@ -26,7 +26,7 @@ public class JdbcHardwareRepository implements HardwareRepository {
 
     @Override
     public List<Hardware> getHardwareByCode(String hardwareCode) {
-        return jdbcTemplate.query("SELECT * FROM Hardware WHERE Code = ?", new HardwareMapper(), hardwareCode);
+        return jdbcTemplate.query("SELECT * FROM Hardware WHERE Code LIKE ?", new HardwareMapper(), "%" + hardwareCode + "%");
     }
 
     @Override
