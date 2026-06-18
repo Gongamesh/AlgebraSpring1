@@ -21,6 +21,6 @@ public class Hardware {
     private Integer available;
 
     @ManyToOne
-    @JoinColumn(name = "type_fk")
+    @JoinColumn(name = "typeFk")
     private Type type;
 }

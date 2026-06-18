@@ -2,8 +2,10 @@ package hr.java.spring.boot.Example.service.impl;
 
 import hr.java.spring.boot.Example.domain.Category;
 import hr.java.spring.boot.Example.domain.Hardware;
+import hr.java.spring.boot.Example.domain.Type;
 import hr.java.spring.boot.Example.dto.HardwareDTO;
 import hr.java.spring.boot.Example.repository.HardwareRepository;
+import hr.java.spring.boot.Example.repository.TypeRepository;
 import hr.java.spring.boot.Example.service.HardwareService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,24 +18,27 @@ import java.util.Optional;
 public class HardwareServiceImpl implements HardwareService {
 
     private HardwareRepository hardwareRepository;
+    private TypeRepository typeRepository;
 
     @Override
     public List<HardwareDTO> getAllHardware() {
-        return hardwareRepository.getAllHardware().stream()
+        return hardwareRepository.findAll()
+                .stream()
                 .map(this::convertHardwareToHardwareDTO)
                 .toList();
     }
 
     @Override
     public List<HardwareDTO> getHardwareByCode(String hardwareCode) {
-        return hardwareRepository.getHardwareByCode(hardwareCode).stream()
+        return hardwareRepository.findByCodeContaining(hardwareCode)
+                .stream()
                 .map(this::convertHardwareToHardwareDTO)
                 .toList();
     }
 
     @Override
     public Optional<HardwareDTO> getHardwareById(Integer hardwareId) {
-        Optional<Hardware> optionalHardware = hardwareRepository.getHardwareById(hardwareId);
+        Optional<Hardware> optionalHardware = hardwareRepository.findById(hardwareId);
 
         if (optionalHardware.isPresent()) {
             return Optional.of(convertHardwareToHardwareDTO(optionalHardware.get()));
@@ -43,37 +48,59 @@ public class HardwareServiceImpl implements HardwareService {
     }
 
     @Override
-    public Integer saveNewHardware(HardwareDTO hardware) {
-        return hardwareRepository.saveNewHardware(convertHardwareDTOToHardware(hardware));
+    public boolean hardwareByIdExists(Integer hardwareId) {
+        return hardwareRepository.existsById(hardwareId);
     }
 
     @Override
-    public Optional<HardwareDTO> updateHardware(HardwareDTO hardwareToUpdate, String hardwareCode) {
-        Optional<Hardware> updatedHardwareOptional =
-                hardwareRepository.updateHardware(convertHardwareDTOToHardware(hardwareToUpdate), hardwareCode);
-
-        if (updatedHardwareOptional.isPresent()) {
-            return Optional.of(convertHardwareToHardwareDTO(updatedHardwareOptional.get()));
+    public boolean deleteHardwareById(Integer hardwareId) {
+        if(hardwareByIdExists(hardwareId)) {
+            hardwareRepository.deleteById(hardwareId);
+            return true;
+        } else {
+            return false;
         }
-
-        return Optional.empty();
     }
 
     @Override
-    public boolean hardwareByIdExists(String hardwareCode) {
-        return hardwareRepository.hardwareByIdExists(hardwareCode);
+    public Integer saveNewHardware(HardwareDTO hardware) {
+        return hardwareRepository.save(convertHardwareDTOToHardware(hardware)).getId();
+    }
+
+    @Override
+    public Optional<HardwareDTO> updateHardware(HardwareDTO hardwareToUpdate, Integer hardwareId) {
+        return hardwareRepository.findById(hardwareId)
+                .map(existing -> {
+                    existing.setName(hardwareToUpdate.getHardwareName());
+                    existing.setPrice(hardwareToUpdate.getHardwarePrice());
+                    existing.setAvailable(hardwareToUpdate.getHardwareAvailable());
+                    existing.setType(typeRepository.findById(hardwareToUpdate.getCategoryId())
+                            .orElseThrow(() -> new RuntimeException("Type not found")));
+
+                    return convertHardwareToHardwareDTO(hardwareRepository.save(existing));
+                });
+    }
+
+    @Override
+    public boolean hardwareByCodeExists(String hardwareCode) {
+        return hardwareRepository.existsByCode(hardwareCode);
     }
 
     @Override
     public boolean deleteHardwareByCode(String hardwareCode) {
-        return hardwareRepository.deleteHardwareByCode(hardwareCode);
+        if(hardwareRepository.existsByCode(hardwareCode)) {
+            hardwareRepository.deleteByCode(hardwareCode);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private HardwareDTO convertHardwareToHardwareDTO(Hardware hardware) {
         return new HardwareDTO(hardware.getName(),
                 hardware.getPrice(),
                 hardware.getAvailable(),
-                hardware.getCategory().getName());
+                hardware.getType().getId());
     }
 
     private Hardware convertHardwareDTOToHardware(HardwareDTO hardware) {
@@ -81,7 +108,11 @@ public class HardwareServiceImpl implements HardwareService {
         newHardware.setName(hardware.getHardwareName());
         newHardware.setPrice(hardware.getHardwarePrice());
         newHardware.setAvailable(hardware.getHardwareAvailable());
-        newHardware.setCategory(Category.getCategoryFromName(hardware.getCategoryName()));
+        Type type = typeRepository.findById(hardware.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Type not found"));
+
+        newHardware.setType(type);
+
         return newHardware;
     }
 

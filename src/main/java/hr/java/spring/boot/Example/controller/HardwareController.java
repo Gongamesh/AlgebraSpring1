@@ -55,11 +55,11 @@ public class HardwareController {
         return ResponseEntity.status(HttpStatus.CREATED).body(generatedId);
     }
 
-    @PutMapping("/{hardwareCode}")
+    @PutMapping("/{hardwareId}")
     public ResponseEntity<?> updateHardware(@Valid @RequestBody HardwareDTO hardwareDTO, @PathVariable Integer hardwareId) {
         if(hardwareService.hardwareByIdExists(hardwareId)) {
-            hardwareService.updateHardware(hardwareDTO, hardwareId);
-            return ResponseEntity.ok(hardwareDTO);
+            Optional<HardwareDTO> optionalHardwareDTO = hardwareService.updateHardware(hardwareDTO, hardwareId);
+            return ResponseEntity.ok(optionalHardwareDTO.get());
         }
         else {
             return ResponseEntity.badRequest().build();

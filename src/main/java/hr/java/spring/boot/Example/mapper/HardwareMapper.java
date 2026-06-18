@@ -19,7 +19,7 @@ public class HardwareMapper implements RowMapper<Hardware> {
         hardware.setName(rs.getString("Name"));
         hardware.setPrice(rs.getBigDecimal("Price"));
         hardware.setAvailable(rs.getInt("Available"));
-        hardware.setCategory(Category.getCategoryFromId(rs.getInt("CategoryFK")));
+        //hardware.setCategory(Category.getCategoryFromId(rs.getInt("CategoryFK")));
 
         return hardware;
     }

@@ -1,4 +1,4 @@
-package hr.java.spring.boot.Example.repository.impl;
+/*package hr.java.spring.boot.Example.repository.impl;
 
 import hr.java.spring.boot.Example.domain.Hardware;
 import hr.java.spring.boot.Example.mapper.HardwareMapper;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Primary
 @Repository
 @AllArgsConstructor
 public class JdbcHardwareRepository implements HardwareRepository {
@@ -95,3 +94,4 @@ public class JdbcHardwareRepository implements HardwareRepository {
         }
     }
 }
+*/
