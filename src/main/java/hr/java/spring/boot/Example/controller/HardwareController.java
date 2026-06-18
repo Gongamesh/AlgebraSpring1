@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/hardware")
+@RequestMapping("/api/hardware")
 @AllArgsConstructor
 public class HardwareController {
 
@@ -42,6 +42,13 @@ public class HardwareController {
         return ResponseEntity.notFound().build();
     }
 
+    @DeleteMapping("/id/{hardwareId}")
+    public ResponseEntity<?> deleteHardwareById(@PathVariable Integer hardwareId) {
+        return hardwareService.deleteHardwareById(hardwareId) ?
+                ResponseEntity.ok().build() :
+                ResponseEntity.notFound().build();
+    }
+
     @PostMapping("/new")
     public ResponseEntity<Integer>  saveNewHardware(@Valid @RequestBody HardwareDTO hardwareDTO) {
         Integer generatedId = hardwareService.saveNewHardware(hardwareDTO);
@@ -49,9 +56,9 @@ public class HardwareController {
     }
 
     @PutMapping("/{hardwareCode}")
-    public ResponseEntity<?> updateHardware(@Valid @RequestBody HardwareDTO hardwareDTO, @PathVariable String hardwareCode) {
-        if(hardwareService.hardwareByIdExists(hardwareCode)) {
-            hardwareService.updateHardware(hardwareDTO, hardwareCode);
+    public ResponseEntity<?> updateHardware(@Valid @RequestBody HardwareDTO hardwareDTO, @PathVariable Integer hardwareId) {
+        if(hardwareService.hardwareByIdExists(hardwareId)) {
+            hardwareService.updateHardware(hardwareDTO, hardwareId);
             return ResponseEntity.ok(hardwareDTO);
         }
         else {
@@ -61,7 +68,7 @@ public class HardwareController {
 
     @DeleteMapping("/{hardwareCode}")
     public ResponseEntity<?> deleteHardwareByCode(@PathVariable String hardwareCode) {
-        if (hardwareService.hardwareByIdExists(hardwareCode)) {
+        if (hardwareService.hardwareByCodeExists(hardwareCode)) {
             boolean result = hardwareService.deleteHardwareByCode(hardwareCode);
 
             if (result) {

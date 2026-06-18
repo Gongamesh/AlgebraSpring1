@@ -1,19 +1,26 @@
 package hr.java.spring.boot.Example.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class Hardware {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String name;
     private String code;
     private BigDecimal price;
     private Integer available;
-    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "type_fk")
+    private Type type;
 }

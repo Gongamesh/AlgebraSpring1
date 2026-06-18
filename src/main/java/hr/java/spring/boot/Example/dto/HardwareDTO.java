@@ -21,6 +21,6 @@ public class HardwareDTO {
     @PositiveOrZero(message = "Hardware ammount must be positive")
     private int hardwareAvailable;
 
-    @NotBlank(message = "Hardware category name cannot be blank")
-    private String categoryName;
+    @NotNull(message = "Hardware category id cannot be null")
+    private Integer categoryId;
 }

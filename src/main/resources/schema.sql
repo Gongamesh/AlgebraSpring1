@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS Category;
+/*DROP TABLE IF EXISTS Category;
 DROP TABLE IF EXISTS Hardware;
 
 CREATE TABLE Category (
@@ -14,4 +14,4 @@ CREATE TABLE Hardware (
     Available INT,
     CategoryFK INT,
     FOREIGN KEY (CategoryFK) REFERENCES Category(Id)
-);
+);*/
